@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Disallow: /wp-content/uploads/wc-logs/
+Disallow: /wp-content/uploads/woocommerce_transient_files/
+Disallow: /wp-content/uploads/woocommerce_uploads/
+Disallow: /wp-admin/
+Disallow: /wp-admin/admin-ajax.php
+
+
+this scrape uses /lakerol-dents/
+and subsequent products for it
