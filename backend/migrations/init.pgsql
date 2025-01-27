@@ -3,7 +3,7 @@
 DROP TABLE IF EXISTS products;
 
 CREATE TABLE products (
- id SERIAL PRIMARY KEY,
+ id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
  product_name TEXT NOT NULL,
  custom_text TEXT,
  weight TEXT,

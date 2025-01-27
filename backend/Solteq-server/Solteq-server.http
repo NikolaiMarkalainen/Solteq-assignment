@@ -1,0 +1,6 @@
+@Solteq_server_HostAddress = http://localhost:5151
+
+GET {{Solteq_server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
