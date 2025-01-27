@@ -1,4 +1,5 @@
 import requests
+import csv
 from bs4 import BeautifulSoup
 
 scrape_page = requests.get("https://www.cloetta.fi/brandit/lakerol-dents/")
@@ -17,16 +18,17 @@ for link in links:
 print(hrefs)
 
 product_list = []
-
 for link in hrefs:
-    single_product_view = requests.get("https://www.cloetta.fi" + link)
+    single_product_view = requests.get("https://www.cloetta.fi/" + link)
+    single_product_view.encoding = "utf-8"
     soup = BeautifulSoup(single_product_view.text, "html.parser")
-    title = soup.find("h1", attrs={"class": "title"})
+    title = soup.find("h1", attrs={"class": "title"}).get_text(strip=True)
     
-    custom_text = soup.find("div", attrs={"data-id": "0e6990d"}).get_text() # p, custom-attribute
-    weight = soup.find("div", attrs={"data-id": "4944c47"}).getText() #p, custom-attribute
-    code = soup.find("div", attrs={"data-id": "c64be7a"}).getText() #p, custom-attribute
-    ingredients = soup.find("div", attrs={"data-id": "8ef774f"}).getText() #p, custom-attributes
+    custom_text = soup.find("div", attrs={"data-id": "0e6990d"}).get_text(strip=True) # p, custom-attribute
+    weight = soup.find("div", attrs={"data-id": "7941bdc"}).find("p", attrs={"p", "weight"}).get_text(strip=True) #p, custom-attribute
+    warning_label = soup.find("div", attrs={"data-id": "4944c47"}).find("p").get_text(strip=True) 
+    code = soup.find("div", attrs={"data-id": "c64be7a"}).get_text(strip=True) #p, custom-attribute
+    ingredients = soup.find("div", attrs={"data-id": "8ef774f"}).get_text(strip=True) #p, custom-attributes
 
 
 
@@ -44,31 +46,55 @@ for link in hrefs:
         table_parent = [] # hold the table contents 
 
         for index, p in enumerate(nutritional_p_tags):
-            # if p tag is bold in table attribute this is a title
-            if 'bold' in p.get('class', []) and 'table-attribute' in p.get('class', []):
-                if index % 2 == 0:
-                    table_name.append(p.get_text().strip())
-                else:
-                    table_value.append(p.get_text().strip())
-                #indent details
-            if 'indent' in p.get('class', []):
-                table_indents.append(p.get_text().strip())
+            # First is always field name and second is value for the field
+            if index % 2 == 0:
+                table_name.append(p.get_text().strip())
+            else:
+                table_value.append(p.get_text().strip())
 
         nutritional_info = []
-        for name, value in zip(table_name, table_value):
-            nutritional_info.append({"name": name, "value": value})
 
-    product_features = soup.find("ul", attrs={"class": "product-features"})
+        for name, value in zip(table_name, table_value):
+            nutritional_info.append({"field":name, "value": value})
+
+    product_features_list = soup.find_all("ul", attrs={"class": "product-features"})
+
+    product_contains = []
+    if(len(product_features_list) > 0):
+        for li in product_features_list[0].find_all("li"):
+            product_contains.append(li.get_text(strip=True))
+    
+    product_does_not_contain = []
+
+    if(len(product_features_list) > 1):
+        for li in product_features_list[1].find_all("li"):
+            product_does_not_contain.append(li.get_text(strip=True))
+    print(nutritional_info)
     product_data = {
         "title": title,
         "custom_text": custom_text, 
-        "weght": weight, 
+        "weight": weight, 
+        "warning": warning_label,
         "code": code, 
-        # "ingredients": ingredients, 
-        # "nutritional_details": nutritional_details,
-        # "product_features": product_features
+        "ingredients": ingredients, 
+        "nutritional_details": nutritional_info,
+        "product_contains": product_contains,
+        "product_does_not_contain": product_does_not_contain
     }
     product_list.append(product_data)
-    print(table_name)
-    print(table_value)
-    print(table_indents)
+
+csv_file = "products.csv"
+csv_columns = [ "title", "custom_text", "weight", "warning", "code", "ingredients", "nutritional_details", "product_contains", "product_does_not_contain"]
+
+try:
+    with open (csv_file, mode="w", newline="", encoding="utf-8") as csvfile:
+        writer = csv.DictWriter(csvfile, quoting=csv.QUOTE_MINIMAL ,fieldnames=csv_columns)
+        writer.writeheader()
+        for product in product_list:
+            product["nutritional_details"] = str(product["nutritional_details"])
+            product["product_contains"] = ", ".join(product["product_contains"])
+            product["product_does_not_contain"] = ", ".join(product["product_does_not_contain"])
+            writer.writerow(product)
+    print(f"Data successfully exported to {csv_file}")
+except Exception as e:
+    print(f"Error writing to CSV file: {e}")
