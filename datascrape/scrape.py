@@ -1,5 +1,6 @@
 import requests
 import csv
+import json
 from bs4 import BeautifulSoup
 
 scrape_page = requests.get("https://www.cloetta.fi/brandit/lakerol-dents/")
@@ -16,6 +17,18 @@ for link in links:
         hrefs.append(href)
 
 print(hrefs)
+
+def formatToArray(malformattedArray):
+    if isinstance(malformattedArray, list):
+        quoted_variables = [f'"{variable}"' for variable in malformattedArray]
+    elif isinstance(malformattedArray, str):
+        variables = [variable.strip() for variable in malformattedArray.split(",")]
+        quoted_variables = [f'"{variable}"' for variable in variables]
+    else:
+        return "{}"
+    
+    formattedArray = "{" + ", ".join(quoted_variables) + "}"
+    return formattedArray
 
 product_list = []
 for link in hrefs:
@@ -69,7 +82,6 @@ for link in hrefs:
     if(len(product_features_list) > 1):
         for li in product_features_list[1].find_all("li"):
             product_does_not_contain.append(li.get_text(strip=True))
-    print(nutritional_info)
     product_data = {
         "title": title,
         "custom_text": custom_text, 
@@ -77,12 +89,11 @@ for link in hrefs:
         "warning": warning_label,
         "code": code, 
         "ingredients": ingredients, 
-        "nutritional_details": nutritional_info,
-        "product_contains": product_contains,
-        "product_does_not_contain": product_does_not_contain
+        "nutritional_details": json.dumps(nutritional_info, ensure_ascii=False),
+        "product_contains": formatToArray(product_contains),
+        "product_does_not_contain": formatToArray(product_does_not_contain)
     }
     product_list.append(product_data)
-
 csv_file = "products.csv"
 csv_columns = [ "title", "custom_text", "weight", "warning", "code", "ingredients", "nutritional_details", "product_contains", "product_does_not_contain"]
 
@@ -92,8 +103,6 @@ try:
         writer.writeheader()
         for product in product_list:
             product["nutritional_details"] = str(product["nutritional_details"])
-            product["product_contains"] = ", ".join(product["product_contains"])
-            product["product_does_not_contain"] = ", ".join(product["product_does_not_contain"])
             writer.writerow(product)
     print(f"Data successfully exported to {csv_file}")
 except Exception as e:
