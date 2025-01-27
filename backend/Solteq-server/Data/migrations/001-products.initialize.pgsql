@@ -1,6 +1,6 @@
 -- Initial table for products table from scraped data
 
-DROP TABLE IF EXISTS products;
+DROP TABLE IF EXISTS products CASCADE;
 
 CREATE TABLE products (
  id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
