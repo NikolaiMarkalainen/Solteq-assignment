@@ -4,7 +4,7 @@ DROP TABLE IF EXISTS nutritional_details;
 
 CREATE TABLE nutritional_details (
     id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    product_id TEXT REFERENCES products(code) ON DELETE CASCADE,
+    product_id BIGINT UNIQUE REFERENCES products(id) ON DELETE CASCADE,
     calories TEXT NOT NULL,
     fat TEXT NOT NULL,
     saturated_fat TEXT NOT NULL,

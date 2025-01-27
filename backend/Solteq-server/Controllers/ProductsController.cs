@@ -20,6 +20,8 @@ namespace Solteq_server.controllers
         public async Task<IActionResult> GetAllProducts()
         {
             var products = await _productService.GetAllProductsAsync();
+            Console.WriteLine($"Found {products.Count} products");
+            
             return Ok(products);
         }
     }

@@ -16,11 +16,14 @@ namespace Solteq_server.data {
       {
          base.OnModelCreating(modelBuilder);
 
+         modelBuilder.Entity<Product>().ToTable("products");
+         modelBuilder.Entity<NutritionalDetails>().ToTable("nutritional_details");
+
          modelBuilder.Entity<Product>()
          .HasOne(p => p.NutritionalDetails)
-         .WithOne()
+         .WithOne(nd => nd.Product)
          .HasForeignKey<NutritionalDetails>(nd => nd.ProductId)
-         .HasPrincipalKey<Product>(p => p.Code)
+         .HasPrincipalKey<Product>(p => p.Id)
          .OnDelete(DeleteBehavior.Cascade);
       }
    }

@@ -3,8 +3,7 @@
 DROP TABLE IF EXISTS products CASCADE;
 
 CREATE TABLE products (
- id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
- code TEXT UNIQUE NOT NULL,
+ id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
  product_name TEXT NOT NULL,
  custom_text TEXT,
  weight TEXT,
@@ -14,5 +13,5 @@ CREATE TABLE products (
  product_does_not_contain TEXT
 );
 
-COPY products (product_name, custom_text, weight, warning, code ,ingredients, product_contains, product_does_not_contain) FROM '/tmp/csvs/products.csv'
+COPY products (product_name, custom_text, weight, warning, id ,ingredients, product_contains, product_does_not_contain) FROM '/tmp/csvs/products.csv'
 WITH (FORMAT csv, HEADER true);

@@ -18,7 +18,9 @@ namespace Solteq_server.services
 
         public async Task<List<Product>> GetAllProductsAsync()
         {
-            return await _context.Products.Include(p => p.NutritionalDetails).ToListAsync();
+            var productExists = await _context.Products.AnyAsync();
+Console.WriteLine($"Are there any products? {productExists}");
+            return await _context.Products.ToListAsync();
         }
 
         public async Task<Product> GetProductByIdAsync(int id)

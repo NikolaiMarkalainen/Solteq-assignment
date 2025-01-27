@@ -23,109 +23,123 @@ namespace Solteq_server.Migrations
 
             modelBuilder.Entity("Solteq_server.models.NutritionalDetails", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Calories")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("calories");
 
                     b.Property<string>("Carbohydrates")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("carbohydrates");
 
                     b.Property<string>("Fat")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("fat");
 
                     b.Property<string>("Polyols")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("polyols");
 
-                    b.Property<string>("ProductId")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<long>("ProductId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("product_id");
 
                     b.Property<string>("Protein")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("protein");
 
                     b.Property<string>("Salt")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("salt");
 
                     b.Property<string>("SaturatedFat")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("saturated_fat");
 
                     b.Property<string>("Sugars")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("sugars");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ProductId")
                         .IsUnique();
 
-                    b.ToTable("NutritionalDetails");
+                    b.ToTable("nutritional_details", (string)null);
                 });
 
             modelBuilder.Entity("Solteq_server.models.Product", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("CustomText")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("custom_text");
 
                     b.Property<string>("Ingredients")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("ingredients");
 
                     b.Property<string>("ProductContains")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("product_contains");
 
                     b.Property<string>("ProductDoesNotContain")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("product_does_not_contain");
 
                     b.Property<string>("ProductName")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("product_name");
 
-                    b.Property<string>("ProductWarning")
+                    b.Property<string>("Warning")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("warning");
 
                     b.Property<string>("Weight")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("weight");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Products");
+                    b.ToTable("products", (string)null);
                 });
 
             modelBuilder.Entity("Solteq_server.models.NutritionalDetails", b =>
                 {
-                    b.HasOne("Solteq_server.models.Product", null)
+                    b.HasOne("Solteq_server.models.Product", "Product")
                         .WithOne("NutritionalDetails")
                         .HasForeignKey("Solteq_server.models.NutritionalDetails", "ProductId")
-                        .HasPrincipalKey("Solteq_server.models.Product", "Code")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Solteq_server.models.Product", b =>
