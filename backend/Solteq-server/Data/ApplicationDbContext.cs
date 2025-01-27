@@ -20,19 +20,8 @@ namespace Solteq_server.data {
          .HasOne(p => p.NutritionalDetails)
          .WithOne()
          .HasForeignKey<NutritionalDetails>(nd => nd.ProductId)
+         .HasPrincipalKey<Product>(p => p.Code)
          .OnDelete(DeleteBehavior.Cascade);
-
-         modelBuilder.Entity<Product>()
-         .Property(p => p.ProductContains)
-         .HasConversion(
-            v => string.Join(',', v),
-            v => v.Split(',', StringSplitOptions.RemoveEmptyEntries));
-
-         modelBuilder.Entity<Product>()
-         .Property(p => p.ProductDoesNotContain)
-         .HasConversion(
-            v => string.Join(',', v),
-            v => v.Split(',', StringSplitOptions.RemoveEmptyEntries));
       }
    }
 }

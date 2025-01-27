@@ -5,7 +5,7 @@ namespace Solteq_server.models
     public class NutritionalDetails
     {
         public int Id { get; set; }
-        public int ProductId { get; set; }
+        public required string ProductId { get; set; }
         public required string Calories { get; set;  }
         public required string Fat { get; set;  }
         public required string SaturatedFat { get; set; }

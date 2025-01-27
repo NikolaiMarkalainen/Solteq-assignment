@@ -10,8 +10,8 @@ CREATE TABLE products (
  weight TEXT,
  warning TEXT,
  ingredients TEXT,
- product_contains TEXT[],
- product_does_not_contain TEXT[]
+ product_contains TEXT,
+ product_does_not_contain TEXT
 );
 
 COPY products (product_name, custom_text, weight, warning, code ,ingredients, product_contains, product_does_not_contain) FROM '/tmp/csvs/products.csv'

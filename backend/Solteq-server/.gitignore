@@ -1,0 +1,6 @@
+backend/Solteq-server/bin/
+backend/Solteq-server/obj/
+
+**/obj/
+**/bin/
+**/Debug/
