@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Solteq-server")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7c3550c41196a8606eb9510050a148b9b90b66b7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ec5edb17de35294407de73cd48597c20e72d96a4")]
 [assembly: System.Reflection.AssemblyProductAttribute("Solteq-server")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Solteq-server")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

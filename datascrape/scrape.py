@@ -51,6 +51,7 @@ def formatToArray(malformattedArray):
     formattedArray = "{" + ", ".join(quoted_variables) + "}"
     return formattedArray
 
+nutrition_list = []
 product_list = []
 for link in hrefs:
     single_product_view = requests.get("https://www.cloetta.fi/" + link)
@@ -90,7 +91,7 @@ for link in hrefs:
 
         for name, value in zip(table_name, table_value):
             nutritional_info.append({fieldNameToJsonProp(name): value})
-
+    nutritional_info.append({"product_id": code})
     product_features_list = soup.find_all("ul", attrs={"class": "product-features"})
 
     product_contains = []
@@ -110,21 +111,52 @@ for link in hrefs:
         "warning": warning_label,
         "code": code, 
         "ingredients": ingredients, 
-        "nutritional_details": json.dumps(nutritional_info, ensure_ascii=False),
         "product_contains": formatToArray(product_contains),
         "product_does_not_contain": formatToArray(product_does_not_contain)
     }
+
+
+    transformed_nutrition_info = {}
+    for item in nutritional_info:
+        transformed_nutrition_info.update(item)
+
     product_list.append(product_data)
+    nutrition_list.append(transformed_nutrition_info)
 csv_file = "products.csv"
-csv_columns = [ "title", "custom_text", "weight", "warning", "code", "ingredients", "nutritional_details", "product_contains", "product_does_not_contain"]
-print("Nutritional details", nutritional_info)
+csv_columns = [ "title", "custom_text", "weight", "warning", "code", "ingredients", "product_contains", "product_does_not_contain"]
+
+print(nutrition_list)
 try:
     with open (csv_file, mode="w", newline="", encoding="utf-8") as csvfile:
         writer = csv.DictWriter(csvfile, quoting=csv.QUOTE_MINIMAL ,fieldnames=csv_columns)
         writer.writeheader()
         for product in product_list:
-            product["nutritional_details"] = str(product["nutritional_details"])
             writer.writerow(product)
     print(f"Data successfully exported to {csv_file}")
 except Exception as e:
     print(f"Error writing to CSV file: {e}")
+
+nutrition_csv_file = "nutrition.csv"
+nutrition_csv_columns = ["product_id", "calories", "fat", "saturated_fat", "carbohydrates", "sugars", "polyols", "protein", "salt"]
+
+
+try:
+    with open (nutrition_csv_file, mode="w", newline="", encoding="utf-8") as csvfile:
+        writer = csv.DictWriter(csvfile, quoting=csv.QUOTE_MINIMAL, fieldnames=nutrition_csv_columns)
+        writer.writeheader()
+        for nutrition_data in nutrition_list:
+            transformed_data = {
+            "calories": nutrition_data.get("energy", ""),
+            "fat": nutrition_data.get("fat", ""),
+            "saturated_fat": nutrition_data.get("saturated_fat", ""),
+            "carbohydrates": nutrition_data.get("carbohydrates", ""),
+            "sugars": nutrition_data.get("sugars", ""),
+            "polyols": nutrition_data.get("polyols", ""),
+            "protein": nutrition_data.get("protein", ""),
+            "salt": nutrition_data.get("salt", ""),
+            "product_id": nutrition_data.get("product_id", "")
+            }
+            writer.writerow(transformed_data)
+    print(f"Data successfully exported to {nutrition_csv_file}")
+except Exception as e:
+    print(f"Error writing to CSV: {e}")
