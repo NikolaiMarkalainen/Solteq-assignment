@@ -18,6 +18,27 @@ for link in links:
 
 print(hrefs)
 
+def fieldNameToJsonProp(field_name):
+    match field_name:
+        case "Energia":
+            return "energy"
+        case "Rasva":
+            return "fat"
+        case "josta tyydyttynyttä":
+            return "saturated_fat"
+        case "Hiilihydraatit":
+            return "carbohydrates"
+        case "josta sokereita":
+            return "sugars"
+        case "josta polyoleja":
+            return "polyols"
+        case "Proteiini":
+            return "protein"
+        case "Suola":
+            return "salt"
+        case _:
+            return None
+        
 def formatToArray(malformattedArray):
     if isinstance(malformattedArray, list):
         quoted_variables = [f'"{variable}"' for variable in malformattedArray]
@@ -68,7 +89,7 @@ for link in hrefs:
         nutritional_info = []
 
         for name, value in zip(table_name, table_value):
-            nutritional_info.append({"field":name, "value": value})
+            nutritional_info.append({fieldNameToJsonProp(name): value})
 
     product_features_list = soup.find_all("ul", attrs={"class": "product-features"})
 
@@ -96,7 +117,7 @@ for link in hrefs:
     product_list.append(product_data)
 csv_file = "products.csv"
 csv_columns = [ "title", "custom_text", "weight", "warning", "code", "ingredients", "nutritional_details", "product_contains", "product_does_not_contain"]
-
+print("Nutritional details", nutritional_info)
 try:
     with open (csv_file, mode="w", newline="", encoding="utf-8") as csvfile:
         writer = csv.DictWriter(csvfile, quoting=csv.QUOTE_MINIMAL ,fieldnames=csv_columns)
