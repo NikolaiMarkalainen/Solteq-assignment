@@ -2,6 +2,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL;
 using Microsoft.EntityFrameworkCore;
 using Solteq_server.data;
 using Solteq_server.services;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,8 +19,12 @@ builder.Services.AddSwaggerGen();
 // services
 builder.Services.AddControllers();
 builder.Services.AddScoped<ProductService>();
-var app = builder.Build();
 
+// authorization
+
+builder.Services.AddAuthorization();
+var app = builder.Build();
+app.MapIdentityApi<IdentityUser>();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

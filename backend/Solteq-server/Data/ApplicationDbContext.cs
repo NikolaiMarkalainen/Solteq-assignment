@@ -21,7 +21,7 @@ namespace Solteq_server.data {
 
          modelBuilder.Entity<Product>()
          .HasOne(p => p.NutritionalDetails)
-         .WithOne(nd => nd.Product)
+         .WithOne()
          .HasForeignKey<NutritionalDetails>(nd => nd.ProductId)
          .HasPrincipalKey<Product>(p => p.Id)
          .OnDelete(DeleteBehavior.Cascade);

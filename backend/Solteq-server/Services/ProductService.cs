@@ -18,19 +18,13 @@ namespace Solteq_server.services
 
         public async Task<List<Product>> GetAllProductsAsync()
         {
-            var productExists = await _context.Products.AnyAsync();
-Console.WriteLine($"Are there any products? {productExists}");
             return await _context.Products.ToListAsync();
         }
 
-        public async Task<Product> GetProductByIdAsync(int id)
+        public async Task<Product?> GetProductByIdAsync(long id)
         {
-            try{
-                return await _context.Products.Include(p => p.NutritionalDetails).FirstOrDefaultAsync(p => p.Id == id);
-            } catch(Exception e) {
-                Console.WriteLine($"An error occurred: {e.Message}");
-                return null;
-            }
+            var product = await _context.Products.Include(p => p.NutritionalDetails).FirstOrDefaultAsync(p => p.Id == id);
+            return product;
         }
         public async Task<List<NutritionalDetails>> GetAllNutritionalDetailsAsync()
         {

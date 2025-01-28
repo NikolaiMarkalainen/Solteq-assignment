@@ -26,7 +26,5 @@ namespace Solteq_server.models
         public required string Protein { get; set; }
         [Column("salt")]
         public required string Salt { get; set;  }
-
-        public Product? Product { get; set; }
     }
 }

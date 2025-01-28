@@ -109,7 +109,7 @@ for link in hrefs:
         "custom_text": custom_text, 
         "weight": weight, 
         "warning": warning_label,
-        "code": code, 
+        "id": code, 
         "ingredients": ingredients, 
         "product_contains": formatToArray(product_contains),
         "product_does_not_contain": formatToArray(product_does_not_contain)
@@ -123,7 +123,7 @@ for link in hrefs:
     product_list.append(product_data)
     nutrition_list.append(transformed_nutrition_info)
 csv_file = "products.csv"
-csv_columns = [ "title", "custom_text", "weight", "warning", "code", "ingredients", "product_contains", "product_does_not_contain"]
+csv_columns = [ "title", "custom_text", "weight", "warning", "id", "ingredients", "product_contains", "product_does_not_contain"]
 
 print(nutrition_list)
 try:
