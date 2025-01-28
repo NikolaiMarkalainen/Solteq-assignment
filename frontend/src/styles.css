@@ -1,0 +1,114 @@
+#root {
+  /*General bgs*/
+  --bg-alternate: #161618;
+  --bg-accent: #2a2f3b;
+
+  /*Card bgs */
+  --card-bg-main: #202127;
+  --card-bg-secondary: #3a4149;
+  --card-bg-accent: #4a3b5c;
+
+  /*Text and Button colors */
+
+  --button-text: #243600;
+  --button-color: #acd268;
+  --button-border: transparent;
+  --alt-button-color: #32363f;
+
+  --header-text: #dfdfd6;
+  --general-text: #98989f;
+
+  --input-field-bg: #161618;
+}
+
+:root {
+  --bg-root: #1b1b1f;
+  --primary-font-family: "Inter", ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  background-color: var(--bg-root);
+  font-family: var(--primary-font-family);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.primary-action-button {
+  color: var(--button-text);
+  background-color: var(--button-color);
+  border: var(--button-border);
+  border-radius: 2rem;
+  padding: 0 0.5rem;
+  line-height: 2rem;
+  font-family: var(--primary-font-family);
+}
+.alt-action-button {
+  color: var(--header-text);
+  background-color: var(--alt-button-color);
+  border: var(--button-border);
+  border-radius: 2rem;
+  padding: 0 0.5rem;
+  line-height: 2rem;
+  font-family: var(--primary-font-family);
+}
+.login-form-parent {
+  display: flex;
+
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-form {
+  display: flex;
+  background-color: var(--card-bg-main);
+  color: var(--general-text);
+  width: 35%;
+  height: 50%;
+  border-radius: 5rem;
+  border: var(--button-border);
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+}
+
+.login-form h1 {
+  margin: 2rem 0;
+  display: flex;
+  color: var(--header-text);
+}
+
+.login-form input {
+  height: 2rem;
+}
+.login-buttons {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-top: auto;
+}
+.login-buttons button {
+  margin: 2rem 1rem;
+  width: 30%;
+  justify-content: space-between;
+}
+
+.input-field-parent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+  flex: 1;
+}
+
+.input-field {
+  background-color: var(--input-field-bg);
+  border-radius: 5rem;
+  border: 1px solid transparent;
+  padding: 0 1rem;
+  margin: 1rem 0;
+  color: var(--header-text);
+}

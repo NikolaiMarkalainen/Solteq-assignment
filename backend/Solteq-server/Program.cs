@@ -15,6 +15,16 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<ApplicationDbContext>(options => 
 options.UseNpgsql(connectionString).EnableSensitiveDataLogging().LogTo(Console.WriteLine));
 
+//cors
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy", policyBuilder =>
+    {
+        policyBuilder.WithOrigins("http://localhost:5173")
+        .AllowAnyHeader()
+        .WithMethods("GET", "POST");
+    });
+});
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -24,6 +34,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<AuthService>();
+
 
 // authorization
 builder.Services.AddAuthentication(options =>
@@ -46,12 +57,16 @@ builder.Services.AddAuthentication(options =>
 
 var app = builder.Build();
 
+//apply cors before anything else
+app.UseCors("CorsPolicy");
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+
 
 app.UseRouting();
 app.MapControllers();
