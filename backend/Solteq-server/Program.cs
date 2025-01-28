@@ -2,7 +2,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL;
 using Microsoft.EntityFrameworkCore;
 using Solteq_server.data;
 using Solteq_server.services;
-using Microsoft.AspNetCore.Identity;
+using Solteq.server.services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,12 +23,29 @@ builder.Services.AddSwaggerGen();
 // services
 builder.Services.AddControllers();
 builder.Services.AddScoped<ProductService>();
+builder.Services.AddScoped<AuthService>();
 
 // authorization
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+    };
+});
 
-builder.Services.AddAuthorization();
 var app = builder.Build();
-app.MapIdentityApi<IdentityUser>();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

@@ -3,12 +3,13 @@ using Solteq_server.models;
 
 namespace Solteq_server.data {
    public class ApplicationDbContext : DbContext
-   {
-      public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-      : base(options)
+    {
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)      
+        : base(options)
       {
       }
 
+      public DbSet<User> User { get; set;  }
       public DbSet<Product> Products { get; set; }
       public DbSet<NutritionalDetails> NutritionalDetails { get; set; }
 
@@ -16,6 +17,7 @@ namespace Solteq_server.data {
       {
          base.OnModelCreating(modelBuilder);
 
+         modelBuilder.Entity<User>().ToTable("users");
          modelBuilder.Entity<Product>().ToTable("products");
          modelBuilder.Entity<NutritionalDetails>().ToTable("nutritional_details");
 
