@@ -60,3 +60,8 @@
   color: var(--sub-text);
   cursor: pointer;
 }
+.error-message {
+  margin: 2% 0;
+  font-size: var(--font-size-body-small);
+  color: var(--error-text);
+}
