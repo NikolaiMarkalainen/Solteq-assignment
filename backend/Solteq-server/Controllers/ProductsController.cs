@@ -18,6 +18,12 @@ namespace Solteq_server.controllers
             _productService = productService;
         }
 
+        [HttpGet("generics")]
+        public async Task<IActionResult> GetGenericProducts()
+        {
+            var products = await _productService.GetGenericProductDetailsAsync();
+            return Ok(products);
+        }
         [HttpGet]
         public async Task<IActionResult> GetAllProducts()
         {
@@ -26,7 +32,7 @@ namespace Solteq_server.controllers
             return Ok(products);
         }
 
-        [HttpGet("[controller]/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetSingleProduct(long id)
         {
             var product = await _productService.GetProductByIdAsync(id);

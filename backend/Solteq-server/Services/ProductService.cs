@@ -16,9 +16,17 @@ namespace Solteq_server.services
             _context = context;
         }
 
+        public async Task<List<GenericProduct>> GetGenericProductDetailsAsync()
+        {
+            return await _context.Products.Select(p => new GenericProduct
+            {
+                Id = p.Id,
+                ProductName = p.ProductName,
+            }).ToListAsync();
+        }
         public async Task<List<Product>> GetAllProductsAsync()
         {
-            return await _context.Products.ToListAsync();
+            return await _context.Products.Include(p => p.NutritionalDetails).ToListAsync();
         }
 
         public async Task<Product?> GetProductByIdAsync(long id)

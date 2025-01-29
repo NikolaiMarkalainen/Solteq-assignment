@@ -11,5 +11,9 @@ export const FrontPage = () => {
   }, [cookies.token]);
 
   console.log(products);
-  return <>asdasdasd</>;
+  return (
+    <div>
+      <div></div>
+    </div>
+  );
 };
