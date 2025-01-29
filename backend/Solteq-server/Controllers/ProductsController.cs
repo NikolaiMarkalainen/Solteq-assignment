@@ -1,5 +1,6 @@
 
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Solteq_server.services;
 
@@ -7,6 +8,7 @@ namespace Solteq_server.controllers
 {
     [ApiController]
     [Route("/api/[controller]")]
+    [Authorize]
     public class ProductsController : ControllerBase
     {
         private readonly ProductService _productService;

@@ -1,10 +1,16 @@
 import { useState, useCallback } from "react";
 import { logUserIn, registerUser } from "../services/loginServices";
+import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
+
 export const useLoginHook = () => {
   const [password, setPassword] = useState<string>();
   const [username, setUsername] = useState<string>();
   const [verificationPassword, setVerificationPassword] = useState<string>();
   const [errorMessage, setErrorMessage] = useState<string>();
+  const [, setCookie] = useCookies(["token"]);
+
+  const navigate = useNavigate();
 
   const handleUserNameChange = useCallback((text: string) => {
     console.log(text);
@@ -56,6 +62,7 @@ export const useLoginHook = () => {
 
       const result = registerUser(requestBody);
       console.log(result);
+      navigate("/login");
     }
   };
 
@@ -63,7 +70,7 @@ export const useLoginHook = () => {
     setErrorMessage("");
   };
 
-  const onSubmit = (isRegistering: boolean) => {
+  const onSubmit = async (isRegistering: boolean) => {
     if (isRegistering) verifyPasswordIntegrity();
     const validInput = genericFieldVerification();
 
@@ -72,8 +79,13 @@ export const useLoginHook = () => {
         username: username!,
         password: password!,
       };
-      const result = logUserIn(requestBody);
-      console.log(result);
+      await logUserIn(requestBody).then((result) => {
+        setCookie("token", result.token, {
+          path: "/",
+          expires: new Date(Date.now() + 3600 * 1000),
+        });
+      });
+      navigate("/");
     }
   };
 

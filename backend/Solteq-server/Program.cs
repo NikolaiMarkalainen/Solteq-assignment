@@ -22,7 +22,8 @@ builder.Services.AddCors(options =>
     {
         policyBuilder.WithOrigins("http://localhost:5173")
         .AllowAnyHeader()
-        .WithMethods("GET", "POST");
+        .WithMethods("GET", "POST")
+        .AllowCredentials();
     });
 });
 
@@ -51,7 +52,7 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         ValidIssuer = builder.Configuration["Jwt:Issuer"],
         ValidAudience = builder.Configuration["Jwt:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
     };
 });
 
@@ -66,9 +67,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-
-
 app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.MapControllers();
 var dataDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Data/migrations/csv_files");
 using (var scope = app.Services.CreateScope())
