@@ -52,7 +52,9 @@ body {
   line-height: 2vh;
   font-family: var(--primary-font-family);
   font-size: var(--font-size-body-normal);
+  cursor: pointer;
 }
+
 .alt-action-button {
   color: var(--header-text);
   background-color: var(--alt-button-color);
@@ -62,4 +64,5 @@ body {
   line-height: 2vh;
   font-family: var(--primary-font-family);
   font-size: var(--font-size-body-normal);
+  cursor: pointer;
 }

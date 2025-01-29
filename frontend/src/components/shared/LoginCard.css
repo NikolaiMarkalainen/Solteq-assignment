@@ -58,4 +58,5 @@
   margin-top: 2.5%;
   font-size: var(--font-size-body-small);
   color: var(--sub-text);
+  cursor: pointer;
 }

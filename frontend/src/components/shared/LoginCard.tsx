@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import "./LoginCard.css";
 
 interface props {
@@ -9,6 +10,13 @@ interface props {
 }
 
 export const LoginCard = (props: props) => {
+  const navigate = useNavigate();
+  const changePage = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    e.preventDefault();
+    console.log("e?");
+    navigate(props.verifyPassword ? "/login" : "/register");
+  };
+
   return (
     <div className="login-form-parent">
       <div className="login-form">
@@ -24,9 +32,7 @@ export const LoginCard = (props: props) => {
           </>
         )}
         <div className="login-buttons">
-          <a
-            className="link"
-            href={props.verifyPassword ? `/login` : `/register`}>
+          <a className="link" onClick={(e) => changePage(e)}>
             {props.registerCheck}
           </a>
           <button className="primary-action-button" style={{ height: "5vh" }}>
