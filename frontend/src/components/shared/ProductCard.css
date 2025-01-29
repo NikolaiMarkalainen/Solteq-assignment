@@ -1,0 +1,22 @@
+.product-card-main {
+  display: flex;
+  background-color: var(--card-bg-secondary);
+  font-size: var(--font-size-body-small);
+  font-family: var(--primary-font-family);
+  flex-direction: column;
+  background-color: var(--card-bg-secondary);
+  width: 100%;
+  height: 100%;
+}
+.product-card-header {
+  width: 100%;
+  text-align: center;
+  font-size: var(--font-size-header);
+  color: var(--header-text);
+  padding: 0.5vh;
+}
+.product-card-image {
+  flex: 1;
+  background-color: aliceblue;
+  margin: 5% 10%;
+}

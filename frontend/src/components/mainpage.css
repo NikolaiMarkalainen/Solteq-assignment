@@ -1,8 +1,8 @@
 .main-container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   width: 100%;
-  height: 100vh;
+  overflow-y: auto;
 }
 
 .header-container {
@@ -12,7 +12,6 @@
   flex-direction: row;
   width: 100%;
   justify-content: space-between;
-  padding: 0 2.5vw;
   align-items: center;
   text-align: center;
   /* stylistic settings */
@@ -66,4 +65,17 @@
 }
 .dropdown-parent:hover .dropdown-menu-item {
   display: block;
+}
+
+.product-container {
+  display: grid;
+  margin: 5vh 15vw;
+  overflow-y: auto;
+  height: 125vh;
+  background-color: aliceblue;
+  grid-template-columns: repeat(4, 1fr); /* 4 equal columns */
+  grid-template-rows: repeat(2, 1fr);
+  gap: 1rem;
+  padding: 1vw;
+  background-color: var(--card-bg-main);
 }

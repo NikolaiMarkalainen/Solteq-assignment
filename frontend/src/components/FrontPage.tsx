@@ -1,22 +1,30 @@
-import { useEffect, useState } from "react";
-import { useCookies } from "react-cookie";
-import { getProducts } from "../services/productServices";
+import { useProductHook } from "../hooks/useProductHook";
 import { Header } from "./Header";
 import "./mainpage.css";
+import { ProductCard } from "./shared/ProductCard";
+import { SearchInput } from "./shared/SearchInput";
 
 export const FrontPage = () => {
-  const [cookies] = useCookies(["token"]);
-  const [products, setProducts] = useState<any>();
-  useEffect(() => {
-    const result = getProducts(cookies.token);
-    setProducts(result);
-  }, [cookies.token]);
-
+  const { products, searchProductsByString, filteredProducts } =
+    useProductHook();
   console.log(products);
   return (
     <div className="main-container">
       <Header />
-      <div></div>
+      <SearchInput
+        products={filteredProducts}
+        onSearchProduct={searchProductsByString}
+      />
+      <div className="product-container">
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+      </div>
     </div>
   );
 };
