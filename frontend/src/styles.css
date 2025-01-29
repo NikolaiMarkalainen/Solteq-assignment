@@ -17,8 +17,16 @@
 
   --header-text: #dfdfd6;
   --general-text: #98989f;
-
+  --sub-text: #606061;
   --input-field-bg: #161618;
+
+  /* Font sizes */
+
+  --font-size-body-normal: 1vw;
+  --font-size-body-small: 0.875vw;
+
+  --font-size-card-title: 1.5vw;
+  --font-size-header: 2.5vw;
 }
 
 :root {
@@ -39,76 +47,19 @@ body {
   color: var(--button-text);
   background-color: var(--button-color);
   border: var(--button-border);
-  border-radius: 2rem;
-  padding: 0 0.5rem;
-  line-height: 2rem;
+  border-radius: 2vw;
+  padding: 0 0.5vw;
+  line-height: 2vh;
   font-family: var(--primary-font-family);
+  font-size: var(--font-size-body-normal);
 }
 .alt-action-button {
   color: var(--header-text);
   background-color: var(--alt-button-color);
   border: var(--button-border);
-  border-radius: 2rem;
-  padding: 0 0.5rem;
-  line-height: 2rem;
+  border-radius: 2vw;
+  padding: 0 0.5vw;
+  line-height: 2vh;
   font-family: var(--primary-font-family);
-}
-.login-form-parent {
-  display: flex;
-
-  width: 100vw;
-  height: 100vh;
-  justify-content: center;
-  align-items: center;
-}
-
-.login-form {
-  display: flex;
-  background-color: var(--card-bg-main);
-  color: var(--general-text);
-  width: 35%;
-  height: 50%;
-  border-radius: 5rem;
-  border: var(--button-border);
-  flex-direction: column;
-  align-items: center;
-  justify-items: center;
-}
-
-.login-form h1 {
-  margin: 2rem 0;
-  display: flex;
-  color: var(--header-text);
-}
-
-.login-form input {
-  height: 2rem;
-}
-.login-buttons {
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  margin-top: auto;
-}
-.login-buttons button {
-  margin: 2rem 1rem;
-  width: 30%;
-  justify-content: space-between;
-}
-
-.input-field-parent {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-items: center;
-  flex: 1;
-}
-
-.input-field {
-  background-color: var(--input-field-bg);
-  border-radius: 5rem;
-  border: 1px solid transparent;
-  padding: 0 1rem;
-  margin: 1rem 0;
-  color: var(--header-text);
+  font-size: var(--font-size-body-normal);
 }
