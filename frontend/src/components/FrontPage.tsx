@@ -3,6 +3,7 @@ import { useCookies } from "react-cookie";
 import { getProducts } from "../services/productServices";
 import { Header } from "./Header";
 import "./mainpage.css";
+
 export const FrontPage = () => {
   const [cookies] = useCookies(["token"]);
   const [products, setProducts] = useState<any>();

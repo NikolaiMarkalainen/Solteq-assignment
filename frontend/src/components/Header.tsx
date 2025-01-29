@@ -1,5 +1,8 @@
+import { useLogoutHook } from "../hooks/useLogoutHook";
 import "./mainpage.css";
 export const Header = () => {
+  const { logout } = useLogoutHook();
+
   return (
     <div className="header-container">
       <h1>Läkeröl Tuotteet</h1>
@@ -9,7 +12,7 @@ export const Header = () => {
           <div className="header-menu-button"></div>
           <div className="header-menu-button"></div>
           <div className="dropdown-menu-item">
-            <p>Log out</p>
+            <p onClick={() => logout()}>Log out</p>
             <p>asd</p>
           </div>
         </div>

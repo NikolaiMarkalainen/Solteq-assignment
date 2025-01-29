@@ -18,7 +18,9 @@ export const App = () => {
       {!cookie.token && (
         <Route path="*" element={<Navigate to="/login" replace />} />
       )}
-      <Route path="/" element={<FrontPage />} />
+      <Route path="*" element={<Navigate to="/home" replace />} />
+
+      <Route path="/home" element={<FrontPage />} />
     </Routes>
   );
 };
