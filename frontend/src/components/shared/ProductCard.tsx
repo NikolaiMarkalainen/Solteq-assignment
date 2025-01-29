@@ -1,9 +1,18 @@
 import "./ProductCard.css";
-export const ProductCard = () => {
+
+interface props {
+  id: number;
+}
+export const ProductCard = (props: props) => {
   return (
     <div className="product-card-main">
       <div className="product-card-header">Läkerol 36g</div>
-      <div className="product-card-image">Image</div>
+      <img
+        src={`http://localhost:5151/api/Products/image/${props.id}`}
+        className="product-card-image"
+        alt="Image"
+      />
+      <div></div>
     </div>
   );
 };

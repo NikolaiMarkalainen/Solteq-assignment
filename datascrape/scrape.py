@@ -2,7 +2,8 @@ import requests
 import csv
 import json
 from bs4 import BeautifulSoup
-
+from io import BytesIO
+import os
 scrape_page = requests.get("https://www.cloetta.fi/brandit/lakerol-dents/")
 soup = BeautifulSoup(scrape_page.text, "html.parser")
 # Find all a tags that lead to product information
@@ -64,9 +65,24 @@ for link in hrefs:
     warning_label = soup.find("div", attrs={"data-id": "4944c47"}).find("p").get_text(strip=True) 
     code = soup.find("div", attrs={"data-id": "c64be7a"}).get_text(strip=True) #p, custom-attribute
     ingredients = soup.find("div", attrs={"data-id": "8ef774f"}).get_text(strip=True) #p, custom-attributes
+    image = soup.find("div", attrs={"id": "featured-image"}).find("img")
+    image_url = image["src"]
+    full_image_url = "https://cloetta.fi" + image_url
 
+    response = requests.get(full_image_url)
+    save_folder = "blobs"
+    os.makedirs(save_folder, exist_ok=True)
 
+    if response.status_code == 200:
+        image_filename = os.path.join(save_folder, code + ".png")
+        with open(image_filename, "wb") as file:
+            file.write(response.content)
+        print("Image successfully converted to a blob object!")
+    else:
+        print(f"Failed to download image. Status code: {response.status_code}")
 
+    image_file_path = f"/Data/images/{code}.png"
+    print(image_file_path)
     nutritional_details_div = soup.find("div", attrs={"class": "nutritional-table"})
     if nutritional_details_div:
 
@@ -112,7 +128,8 @@ for link in hrefs:
         "id": code, 
         "ingredients": ingredients, 
         "product_contains": formatToArray(product_contains),
-        "product_does_not_contain": formatToArray(product_does_not_contain)
+        "product_does_not_contain": formatToArray(product_does_not_contain),
+        "image": image_file_path
     }
 
 
@@ -123,7 +140,7 @@ for link in hrefs:
     product_list.append(product_data)
     nutrition_list.append(transformed_nutrition_info)
 csv_file = "products.csv"
-csv_columns = [ "title", "custom_text", "weight", "warning", "id", "ingredients", "product_contains", "product_does_not_contain"]
+csv_columns = [ "title", "custom_text", "weight", "warning", "id", "ingredients", "product_contains", "product_does_not_contain", "image"]
 
 print(nutrition_list)
 try:

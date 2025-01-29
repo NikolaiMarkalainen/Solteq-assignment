@@ -15,16 +15,18 @@ export const FrontPage = () => {
         products={filteredProducts}
         onSearchProduct={searchProductsByString}
       />
-      <div className="product-container">
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-      </div>
+      {products && (
+        <div className="product-container">
+          <ProductCard id={products[0].id} />
+          <ProductCard id={products[1].id} />
+          <ProductCard id={products[2].id} />
+          <ProductCard id={products[3].id} />
+          <ProductCard id={products[4].id} />
+          <ProductCard id={products[5].id} />
+          <ProductCard id={products[6].id} />
+          <ProductCard id={products[7].id} />
+        </div>
+      )}
     </div>
   );
 };

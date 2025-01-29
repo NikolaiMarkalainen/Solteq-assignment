@@ -8,7 +8,6 @@ namespace Solteq_server.controllers
 {
     [ApiController]
     [Route("/api/[controller]")]
-    [Authorize]
     public class ProductsController : ControllerBase
     {
         private readonly ProductService _productService;
@@ -49,6 +48,18 @@ namespace Solteq_server.controllers
             var nutritionalDetails = await _productService.GetAllNutritionalDetailsAsync();
 
             return Ok(nutritionalDetails);
+        }
+        [HttpGet("image/{id}")]
+        public async Task<IActionResult> GetProductImage(long id)
+        {
+            var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "images", $"{id}.png");
+
+            if(!System.IO.File.Exists(imagePath))
+            {
+                return NotFound();
+            }
+            var fileStream = System.IO.File.OpenRead(imagePath);
+            return File(fileStream, "image/png");
         }
     }
 }
