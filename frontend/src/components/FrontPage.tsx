@@ -17,14 +17,13 @@ export const FrontPage = () => {
       />
       {products && (
         <div className="product-container">
-          <ProductCard id={products[0].id} />
-          <ProductCard id={products[1].id} />
-          <ProductCard id={products[2].id} />
-          <ProductCard id={products[3].id} />
-          <ProductCard id={products[4].id} />
-          <ProductCard id={products[5].id} />
-          <ProductCard id={products[6].id} />
-          <ProductCard id={products[7].id} />
+          {products.map((m) => (
+            <ProductCard
+              id={m.id}
+              productName={m.productName}
+              category={m.category}
+            />
+          ))}
         </div>
       )}
     </div>

@@ -20,7 +20,8 @@ namespace Solteq_server.models
         public required string ProductContains { get; set; }
         [Column("product_does_not_contain")]
         public required string ProductDoesNotContain { get; set; }
-
+        [Column("category")]
+        public required string Category { get; set; }
         public NutritionalDetails? NutritionalDetails { get; set; }
     }    
 }

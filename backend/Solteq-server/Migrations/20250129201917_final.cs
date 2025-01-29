@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Solteq_server.Migrations
 {
     /// <inheritdoc />
-    public partial class newmigration : Migration
+    public partial class final : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -23,11 +23,26 @@ namespace Solteq_server.Migrations
                     warning = table.Column<string>(type: "text", nullable: false),
                     ingredients = table.Column<string>(type: "text", nullable: false),
                     product_contains = table.Column<string>(type: "text", nullable: false),
-                    product_does_not_contain = table.Column<string>(type: "text", nullable: false)
+                    product_does_not_contain = table.Column<string>(type: "text", nullable: false),
+                    category = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_products", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "users",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    username = table.Column<string>(type: "text", nullable: false),
+                    password = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_users", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -69,6 +84,9 @@ namespace Solteq_server.Migrations
         {
             migrationBuilder.DropTable(
                 name: "nutritional_details");
+
+            migrationBuilder.DropTable(
+                name: "users");
 
             migrationBuilder.DropTable(
                 name: "products");

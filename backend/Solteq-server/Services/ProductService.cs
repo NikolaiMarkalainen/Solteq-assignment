@@ -22,6 +22,7 @@ namespace Solteq_server.services
             {
                 Id = p.Id,
                 ProductName = p.ProductName,
+                Category = p.Category
             }).ToListAsync();
         }
         public async Task<List<Product>> GetAllProductsAsync()

@@ -91,6 +91,11 @@ namespace Solteq_server.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("category");
+
                     b.Property<string>("CustomText")
                         .IsRequired()
                         .HasColumnType("text")
@@ -131,15 +136,37 @@ namespace Solteq_server.Migrations
                     b.ToTable("products", (string)null);
                 });
 
+            modelBuilder.Entity("Solteq_server.models.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("password");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("username");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("users", (string)null);
+                });
+
             modelBuilder.Entity("Solteq_server.models.NutritionalDetails", b =>
                 {
-                    b.HasOne("Solteq_server.models.Product", "Product")
+                    b.HasOne("Solteq_server.models.Product", null)
                         .WithOne("NutritionalDetails")
                         .HasForeignKey("Solteq_server.models.NutritionalDetails", "ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Solteq_server.models.Product", b =>

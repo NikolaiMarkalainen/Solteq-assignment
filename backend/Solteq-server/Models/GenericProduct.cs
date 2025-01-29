@@ -6,5 +6,5 @@ public class GenericProduct
 
     public required string ProductName { get; set; }
 
-    // add image later
+    public required string Category { get; set; }
 }
