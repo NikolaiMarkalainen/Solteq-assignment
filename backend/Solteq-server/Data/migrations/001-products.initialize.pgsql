@@ -9,8 +9,8 @@ CREATE TABLE products (
  weight TEXT,
  warning TEXT,
  ingredients TEXT,
- product_contains TEXT,
- product_does_not_contain TEXT,
+ product_contains TEXT[],
+ product_does_not_contain TEXT[],
  category TEXT
 );
 

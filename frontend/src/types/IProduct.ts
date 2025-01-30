@@ -7,8 +7,8 @@ export interface IProduct {
   weight: string;
   warning: string;
   ingredients: string;
-  productContains: string;
-  productDoesNotContain: string;
+  productContains: string[];
+  productDoesNotContain: string[];
   category: string;
   nutritionalDetails: INutritionalDetails;
 }
