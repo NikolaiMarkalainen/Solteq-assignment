@@ -5,7 +5,9 @@ import { ProductCard } from "./shared/ProductCard";
 import { SearchInput } from "./shared/SearchInput";
 
 export const FrontPage = () => {
-  const { products, searchProductsByString } = useProductHook();
+  const { products, searchProductsByString, getDetailedView } =
+    useProductHook();
+  console.log("frontpage");
   return (
     <div className="main-container">
       <Header />
@@ -16,6 +18,7 @@ export const FrontPage = () => {
             <ProductCard
               key={m.id}
               id={m.id}
+              onProductClick={getDetailedView}
               productName={m.productName}
               category={m.category}
             />

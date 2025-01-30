@@ -28,6 +28,7 @@
   color: var(--button-color);
   padding-left: 15vw;
   font-size: var(--font-size-header);
+  cursor: pointer;
 }
 
 .header-menu-parent {

@@ -31,3 +31,22 @@ export const getFilteredProducts = async (cookie: string, query: string) => {
     console.log(e);
   }
 };
+
+export const getSingleProductDetails = async (
+  cookie: string,
+  query: string,
+) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:5151/api/products/${query}`,
+      {
+        headers: {
+          Authorization: `Bearer ${cookie}`,
+        },
+      },
+    );
+    return response.data;
+  } catch (e) {
+    console.log(e);
+  }
+};
