@@ -12,8 +12,7 @@ export const Header = () => {
           <div className="header-menu-button"></div>
           <div className="header-menu-button"></div>
           <div className="dropdown-menu-item">
-            <p onClick={() => logout()}>Log out</p>
-            <p>asd</p>
+            <p onClick={() => logout()}>Kirjaudu ulos</p>
           </div>
         </div>
       </div>

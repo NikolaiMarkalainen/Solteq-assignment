@@ -58,6 +58,7 @@
 .dropdown-menu-item p {
   cursor: pointer;
   padding: 0.2vh 0;
+  font-size: smaller;
 }
 .dropdown-menu-item p:hover {
   color: var(--button-color);
@@ -72,7 +73,7 @@
   margin: 5vh 15vw;
   flex: 1;
   justify-content: center;
-  grid-template-columns: 15vw 15vw 15vw;
+  grid-template-columns: 15vw 15vw 15vw 15vw;
   grid-auto-rows: repeat(15vh);
   gap: 2vw;
   padding: 1vw;

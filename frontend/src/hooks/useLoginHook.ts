@@ -13,17 +13,14 @@ export const useLoginHook = () => {
   const navigate = useNavigate();
 
   const handleUserNameChange = useCallback((text: string) => {
-    console.log(text);
     setUsername(text);
   }, []);
 
   const handlePasswordChange = useCallback((text: string) => {
-    console.log(text);
     setPassword(text);
   }, []);
 
   const handlePasswordVerification = useCallback((text: string) => {
-    console.log(text);
     setVerificationPassword(text);
   }, []);
 
@@ -60,8 +57,7 @@ export const useLoginHook = () => {
         password: password!,
       };
 
-      const result = registerUser(requestBody);
-      console.log(result);
+      registerUser(requestBody);
       navigate("/login");
     }
   };
@@ -79,13 +75,18 @@ export const useLoginHook = () => {
         username: username!,
         password: password!,
       };
-      await logUserIn(requestBody).then((result) => {
-        setCookie("token", result.token, {
-          path: "/",
-          expires: new Date(Date.now() + 3600 * 1000),
+      try {
+        await logUserIn(requestBody).then((result) => {
+          setCookie("token", result.token, {
+            path: "/",
+            expires: new Date(Date.now() + 3600 * 1000),
+          });
         });
-      });
-      navigate("/home");
+        navigate("/home");
+      } catch (e) {
+        console.log(e);
+        setErrorMessage("Failed to login, try again");
+      }
     }
   };
 

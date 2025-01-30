@@ -7,7 +7,6 @@ interface props {
 }
 
 export const SearchInput = (props: props) => {
-  console.log("PRODUCTS", props.products);
   return (
     <div className="search-parent">
       <p>Etsi tuote nimellä tai koodilla</p>

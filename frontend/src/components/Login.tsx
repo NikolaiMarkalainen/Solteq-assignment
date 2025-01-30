@@ -12,7 +12,6 @@ export const Login = () => {
 
   return (
     <>
-      <button onClick={() => console.log("asd")}></button>
       <LoginCard
         header="Kirjaudu sisään"
         primaryButtonText="Kirjaudu sisään"

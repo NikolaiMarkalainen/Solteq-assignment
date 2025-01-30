@@ -13,11 +13,13 @@ namespace Solteq_server.data {
       public DbSet<Product> Products { get; set; }
       public DbSet<NutritionalDetails> NutritionalDetails { get; set; }
 
+      public DbSet<GenericProduct> GenericProducts { get; set; }
       protected override void OnModelCreating(ModelBuilder modelBuilder)
       {
          base.OnModelCreating(modelBuilder);
 
          modelBuilder.Entity<User>().ToTable("users");
+         modelBuilder.Entity<GenericProduct>().ToTable("generic_products");
          modelBuilder.Entity<Product>().ToTable("products");
          modelBuilder.Entity<NutritionalDetails>().ToTable("nutritional_details");
 

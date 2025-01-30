@@ -61,5 +61,12 @@ namespace Solteq_server.controllers
             var fileStream = System.IO.File.OpenRead(imagePath);
             return File(fileStream, "image/png");
         }
+        [HttpGet("generics/{query}")]
+        public async Task<IActionResult> GetFilteredProducts(string query)
+        {
+            var products = await _productService.GetFilteredProductDetailsAsync(query);
+
+            return Ok(products);
+        }
     }
 }
