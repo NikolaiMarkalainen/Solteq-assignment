@@ -7,6 +7,8 @@ interface props {
   onProductClick: (id: number) => void;
 }
 export const ProductCard = React.memo((props: props) => {
+  const apiUrl = import.meta.env.VITE_API_URL;
+
   return (
     <div
       className="product-card-main"
@@ -14,7 +16,7 @@ export const ProductCard = React.memo((props: props) => {
       <div className="product-card-header">{props.productName}</div>
       <div className="product-card-category">{props.category}</div>
       <img
-        src={`http://localhost:5151/api/Products/image/${props.id}`}
+        src={`${apiUrl}/api/Products/image/${props.id}`}
         className="product-card-image"
         alt="Image"
       />

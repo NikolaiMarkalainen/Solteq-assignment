@@ -10,6 +10,7 @@ export const SingleProductView = () => {
   const [cookie] = useCookies(["token"]);
   const params = useParams();
   const [product, setProduct] = useState<IProduct>();
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     if (params.id && cookie.token) {
@@ -19,7 +20,7 @@ export const SingleProductView = () => {
       );
     }
   }, [cookie.token, params.id]);
-  console.log(product);
+
   return (
     <div>
       <Header />
@@ -34,7 +35,7 @@ export const SingleProductView = () => {
 
               <img
                 className="singleproduct-image"
-                src={`http://localhost:5151/api/Products/image/${product?.id}`}
+                src={`${apiUrl}/api/Products/image/${product?.id}`}
               />
               <div className="singleproduct-image-text">
                 <div style={{ display: "flex", flexDirection: "row" }}>
@@ -71,7 +72,7 @@ export const SingleProductView = () => {
                 <div className="single-product-nutrition-parent">
                   <h3>Ravintosisältö 100g:ssa</h3>
                   <div className="nutrition-list">
-                    <p className="nutrition-list-key">Energy:</p>
+                    <p className="nutrition-list-key">Energia:</p>
                     <p className="nutrition-list-value">
                       {product.nutritionalDetails.calories}
                     </p>
