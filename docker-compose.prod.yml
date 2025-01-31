@@ -35,10 +35,10 @@ services:
     image: postgres:latest
     container_name: solteq-database
     environment:
-      POSTGRES_PORT: ${POSTGRES_PORT}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_PORT: ${POSTGRES_PORT}
     expose:
       - 5432
     healthcheck:

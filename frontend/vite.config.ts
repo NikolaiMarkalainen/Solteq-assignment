@@ -8,6 +8,11 @@ export default defineConfig({
     host: "0.0.0.0", // Listen on all interfaces
     allowedHosts: ["solteq-frontend"],
     proxy: {
+      "/api/dev": {
+        target: "http://solteq-dev-api:5151",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/dev/, ""),
+      },
       "/api": {
         target: "http://solteq-api:5151",
         changeOrigin: true,
