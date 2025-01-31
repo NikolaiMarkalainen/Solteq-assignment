@@ -17,6 +17,7 @@ public static class DataSeeder
             using (var reader = new StreamReader(productsFilePath))
             using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
             {
+                csv.Context.RegisterClassMap<ProductMap>();
                 var products = csv.GetRecords<Product>().ToList();
                 context.Products.AddRange(products);
                 context.SaveChanges();
@@ -25,12 +26,36 @@ public static class DataSeeder
 
         if (!context.NutritionalDetails.Any())
         {
-            var nutritionalDetailsFilePath = Path.Combine(dataDirectory, "nutritional_details.csv");
+            var nutritionalDetailsFilePath = Path.Combine(dataDirectory, "nutrition.csv");
             using (var reader = new StreamReader(nutritionalDetailsFilePath))
             using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
             {
-                var nutritionalDetails = csv.GetRecords<NutritionalDetails>().ToList();
+                csv.Context.RegisterClassMap<NutritionalDetailsMap>();
+                var nutritionalDetails = csv.GetRecords<NutritionalDetails>().Select(nd => 
+                {
+                    nd.Id = 0;
+                    return nd;
+                }).ToList();
                 context.NutritionalDetails.AddRange(nutritionalDetails);
+                context.SaveChanges();
+            }
+        }
+
+        if (!context.GenericProducts.Any())
+        {
+            var genericProductsFilePath = Path.Combine(dataDirectory, "products.csv");
+
+            using (var reader = new StreamReader(genericProductsFilePath))
+            using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+            {
+                // Register the class map to map specific columns
+                csv.Context.RegisterClassMap<GenericProductsMap>();
+
+                // Read records from the CSV and select only the necessary fields
+                var genericProducts = csv.GetRecords<GenericProduct>().ToList();
+
+                // Add the generic products to the context and save changes
+                context.GenericProducts.AddRange(genericProducts);
                 context.SaveChanges();
             }
         }

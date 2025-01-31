@@ -20,8 +20,8 @@ services:
     env_file:
       - .env
     environment:
-      ASPNETCORE_ENVIRONMENT: Development
-      DOTNET_ENVIRONMENT: Development
+      ASPNETCORE_ENVIRONMENT: Docker
+      DOTNET_ENVIRONMENT: Docker
       ASPNETCORE_HTTP_PORTS:
     ports:
       - 5151:5151

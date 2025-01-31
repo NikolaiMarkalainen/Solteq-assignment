@@ -1,23 +1,25 @@
-import { defineConfig } from "vite";
+import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react";
 
 // https://vite.dev/config/
-export default defineConfig({
-  plugins: [react()],
-  server: {
-    host: "0.0.0.0", // Listen on all interfaces
-    allowedHosts: ["solteq-frontend"],
-    proxy: {
-      "/api/dev": {
-        target: "http://solteq-dev-api:5151",
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api\/dev/, ""),
-      },
-      "/api": {
-        target: "http://solteq-api:5151",
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ""),
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, "");
+
+  return {
+    plugins: [react()],
+    server: {
+      host: "0.0.0.0", // Listen on all interfaces
+      allowedHosts: ["solteq-frontend", "solteq-dev-frontend"],
+      proxy: {
+        "/api": {
+          target:
+            env.VITE_API_TARGET === "PROD"
+              ? "http://solteq-api:5151"
+              : "http://solteq-dev-api:5151",
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api/, ""),
+        },
       },
     },
-  },
+  };
 });

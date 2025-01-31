@@ -16,7 +16,6 @@ builder.Configuration.SetBasePath
     .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
     .AddEnvironmentVariables();
 
-Console.WriteLine(builder.Environment);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => 
@@ -79,9 +78,11 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-var dataDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Data/migrations/csv_files");
+var dataDirectory = Path.Combine(Directory.GetCurrentDirectory(), "./Data/migrations/csv_files");
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    dbContext.Database.Migrate();
+    DataSeeder.SeedData(dbContext, dataDirectory);
 }
 app.Run();

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -6,11 +7,25 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Solteq_server.Migrations
 {
     /// <inheritdoc />
-    public partial class final : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "generic_products",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    product_name = table.Column<string>(type: "text", nullable: false),
+                    category = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_generic_products", x => x.id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "products",
                 columns: table => new
@@ -22,8 +37,8 @@ namespace Solteq_server.Migrations
                     weight = table.Column<string>(type: "text", nullable: false),
                     warning = table.Column<string>(type: "text", nullable: false),
                     ingredients = table.Column<string>(type: "text", nullable: false),
-                    product_contains = table.Column<string>(type: "text", nullable: false),
-                    product_does_not_contain = table.Column<string>(type: "text", nullable: false),
+                    product_contains = table.Column<List<string>>(type: "text[]", nullable: false),
+                    product_does_not_contain = table.Column<List<string>>(type: "text[]", nullable: false),
                     category = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
@@ -82,6 +97,9 @@ namespace Solteq_server.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "generic_products");
+
             migrationBuilder.DropTable(
                 name: "nutritional_details");
 
