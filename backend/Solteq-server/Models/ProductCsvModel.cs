@@ -1,8 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Solteq_server.models
-{
-    public class Product 
+    public class ProductCsv
     {
         [Column("id")]
         public required long Id { get; set; }
@@ -17,11 +14,9 @@ namespace Solteq_server.models
         [Column("ingredients")]
         public required string Ingredients { get; set; }
         [Column("product_contains")]
-        public List<string> ProductContains { get; set; } = new List<string>();
+        public required string ProductContains { get; set; }
         [Column("product_does_not_contain")]
-        public List<string> ProductDoesNotContain { get; set; } = new List<string>();
+        public required string ProductDoesNotContain { get; set; }
         [Column("category")]
         public required string Category { get; set; }
-        public NutritionalDetails? NutritionalDetails { get; set; }
     }    
-}

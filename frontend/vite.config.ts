@@ -7,6 +7,10 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react()],
+    build: {
+      outDir: "../backend/Solteq-server/wwwroot", // Ensure this points to the wwwroot folder in your .NET project
+      emptyOutDir: true, // Clean the folder before building
+    },
     server: {
       host: "0.0.0.0", // Listen on all interfaces
       allowedHosts: ["solteq-frontend", "solteq-dev-frontend"],

@@ -16,6 +16,21 @@ public class ProductMap : ClassMap<Product>
     }
 }
 
+public class CSVProductMap : ClassMap<ProductCsv>
+{
+    public CSVProductMap()
+    {
+        Map(m => m.Id).Name("id");
+        Map(m => m.ProductName).Name("title");
+        Map(m => m.CustomText).Name("custom_text");
+        Map(m => m.Weight).Name("weight");
+        Map(m => m.Warning).Name("warning");
+        Map(m => m.Ingredients).Name("ingredients");
+        Map(m => m.ProductContains).Name("product_contains");
+        Map(m => m.ProductDoesNotContain).Name("product_does_not_contain");
+        Map(m => m.Category).Name("category");
+    }
+}
 public class NutritionalDetailsMap : ClassMap<NutritionalDetails>
 {
     public NutritionalDetailsMap()

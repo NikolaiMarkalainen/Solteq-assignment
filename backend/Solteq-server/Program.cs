@@ -64,6 +64,9 @@ builder.Services.AddAuthentication(options =>
 
 var app = builder.Build();
 
+app.UseStaticFiles();
+app.MapFallbackToFile("index.html");
+
 //apply cors before anything else
 app.UseCors("CorsPolicy");
 // Configure the HTTP request pipeline.

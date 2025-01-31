@@ -4,6 +4,7 @@ import json
 from bs4 import BeautifulSoup
 from io import BytesIO
 import os
+import ast
 scrape_page = requests.get("https://www.cloetta.fi/brandit/lakerol-dents/")
 soup = BeautifulSoup(scrape_page.text, "html.parser")
 # Find all a tags that lead to product information
@@ -40,17 +41,27 @@ def fieldNameToJsonProp(field_name):
         case _:
             return None
         
-def formatToArray(malformattedArray):
-    if isinstance(malformattedArray, list):
-        quoted_variables = [f'"{variable}"' for variable in malformattedArray]
-    elif isinstance(malformattedArray, str):
-        variables = [variable.strip() for variable in malformattedArray.split(",")]
-        quoted_variables = [f'"{variable}"' for variable in variables]
-    else:
-        return "{}"
+        #for instant db insertion
+# def formatToArray(malformattedArray):
+#     if isinstance(malformattedArray, list):
+#         quoted_variables = [f'"{variable}"' for variable in malformattedArray]
+#     elif isinstance(malformattedArray, str):
+#         variables = [variable.strip() for variable in malformattedArray.split(",")]
+#         quoted_variables = [f'"{variable}"' for variable in variables]
+#     else:
+#         return "{}"
     
-    formattedArray = "{" + ", ".join(quoted_variables) + "}"
-    return formattedArray
+#     formattedArray = "{" + ", ".join(quoted_variables) + "}"
+#     return formattedArray
+
+def toProperArray(rawData):
+    if isinstance(rawData, list):
+        for i in range(len(rawData)):
+            if isinstance(rawData[i], str):
+                rawData[i] = rawData[i].strip()
+                rawData[i] = rawData[i].replace("'", '"') 
+                print(f"Updated value (rawData[{i}]): {repr(rawData[i])}") 
+    return rawData
 
 nutrition_list = []
 product_list = []
@@ -120,6 +131,7 @@ for link in hrefs:
     
     product_does_not_contain = []
 
+
     if(len(product_features_list) > 1):
         for li in product_features_list[1].find_all("li"):
             product_does_not_contain.append(li.get_text(strip=True))
@@ -130,8 +142,8 @@ for link in hrefs:
         "warning": warning_label,
         "id": code, 
         "ingredients": ingredients, 
-        "product_contains": formatToArray(product_contains),
-        "product_does_not_contain": formatToArray(product_does_not_contain),
+        "product_contains": json.dumps(toProperArray(product_contains)),
+        "product_does_not_contain": json.dumps(toProperArray(product_does_not_contain)),
         "category": category
     }
 

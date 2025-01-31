@@ -4,7 +4,7 @@ using Solteq_server.data;
 using Solteq_server.models;
 using System.Globalization;
 using System.IO;
-
+using System.Text.Json;
 public static class DataSeeder
 {
     public static void SeedData(ApplicationDbContext context, string dataDirectory)
@@ -17,8 +17,21 @@ public static class DataSeeder
             using (var reader = new StreamReader(productsFilePath))
             using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
             {
-                csv.Context.RegisterClassMap<ProductMap>();
-                var products = csv.GetRecords<Product>().ToList();
+                csv.Context.RegisterClassMap<CSVProductMap>();
+                var rawProducts = csv.GetRecords<ProductCsv>().ToList();
+
+                var products = rawProducts.Select(rawProduct => new Product
+                {
+                    Id = rawProduct.Id,
+                    ProductName = rawProduct.ProductName,
+                    CustomText = rawProduct.CustomText,
+                    Weight = rawProduct.Weight,
+                    Warning = rawProduct.Warning,
+                    Ingredients = rawProduct.Ingredients,
+                    Category = rawProduct.Category,
+                    ProductContains = JsonSerializer.Deserialize<List<string>>(rawProduct.ProductContains) ?? new List<string>(),
+                    ProductDoesNotContain = JsonSerializer.Deserialize<List<string>>(rawProduct.ProductDoesNotContain) ?? new List<string>()
+                }).ToList();
                 context.Products.AddRange(products);
                 context.SaveChanges();
             }
