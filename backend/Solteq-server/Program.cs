@@ -9,7 +9,14 @@ using System.Text;
 
 
 var builder = WebApplication.CreateBuilder(args);
+var env = builder.Environment;
 
+builder.Configuration.SetBasePath
+    (Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
+    .AddEnvironmentVariables();
+
+Console.WriteLine(builder.Environment);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => 
@@ -66,7 +73,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.Logger.LogInformation("Environment: {EnvironmentName}, Connection String: {ConnectionString}", env.EnvironmentName, connectionString);
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();

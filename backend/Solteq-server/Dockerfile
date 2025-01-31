@@ -1,9 +1,11 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS base
 WORKDIR /backend
 
-#NEEDED FOR SWAGGER TO WORK
-ENV ASPNETCORE_ENVIRONMENT=Development
-
+# ENV variables
+# ENV ASPNETCORE_ENVIRONMENT=Development
+# ENV ASPNETCORE_HTTP_PORTS= 
+# ENV ASPNETCORE_ENVIRONMENT=Production
+# ENV DOTNET_ENVIRONMENT=Production
 COPY . .
 
 RUN apt-get update && apt-get -y install sudo
@@ -24,7 +26,7 @@ RUN dotnet publish -c Release -o /backend/publish /p:UseAppHost=false
 
 
 FROM base AS final
-ENV ASPNETCORE_HTTP_PORTS= 
+
 WORKDIR /backend
 COPY --from=publish /backend/publish .
 ENTRYPOINT dotnet run
