@@ -3,5 +3,4 @@
 
 .env.production
 fly.toml
-.env
 appsettings.Production.json
